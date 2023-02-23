@@ -1,21 +1,22 @@
 // import Notiflix from 'notiflix';
 import axios from 'axios'
 
-const searchQuery = document.querySelector(".search_input")
+const searchInput = document.querySelector(".search_input")
 const form = document.getElementById("search-form")
 const gallery = document.querySelector(".gallery")
 const loadMore = document.querySelector(".load-more")
-const btn =document.querySelector(".button")
-let search = ""
+const btn = document.querySelector(".button")
+
+let searchQuery = ""
 let numberOfPage = 1
 
 loadMore.addEventListener("click", onClickLoadMore)
 form.addEventListener("submit", onSubmitForm)
-searchQuery.addEventListener("input", onSearchQuery)
+searchInput.addEventListener("input", onSearchQuery)
 
 
-async function  fetchElement (searchQuery, page) { 
-    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+async function  fetchElement (searchQ, page) { 
+    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     return axios(URL)
 }
 
@@ -54,12 +55,15 @@ function addMarkupToGalery(markup) {
 function onSubmitForm(e) { 
     e.preventDefault()
     changeVisibleLoadingMoreBtn()
+    numberOfPage = 1
+    btn.disabled = true
+
 
     fetchElement(searchQuery, numberOfPage) 
         .then(response => { 
         const foto = response.data.hits
         const totalHits = response.data.totalHits
-        //  totalFoto = foto.length
+         totalMatches = foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
@@ -70,12 +74,11 @@ return createMarkupFotoData(foto)
         })
         .then(markup => { 
             galleryMarkup(markup)
-
         })
     .catch (error)
 }
 function onSearchQuery(e) { 
-    searchQuery = e.target.value
+   let searchQuery = e.target.value
     if (searchQuery === "") {
         btn.disabled = true;
     }
@@ -90,15 +93,14 @@ function onClickLoadMore(e) {
     fetchElement(searchQuery, numberOfPage)
         .then(response => {
             const foto = response.data.hits
-            const totalHits = response.data.totalHits
-            totalFoto += foto.length
-            if (totalFoto === 0 || totalFoto >= totalHits) {
+            const totalHits = response.data.totalHits;
+            totalMatches += foto.length
+            if (totalMatches === 0 || totalMatches >= totalHits) {
                 Notiflix.Notify.warning("We have reached the end of the list")
                 changeVisibleLoadingMoreBtn()
             }
              return foto
-        }
-    )
+        })
         .then(foto => createMarkupFotoData(foto))
         .then(markup => { 
             addMarkupToGalery(markup)
