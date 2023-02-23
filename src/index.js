@@ -59,7 +59,7 @@ function onSubmitForm(e) {
         .then(response => { 
         const foto = response.data.hits
         const totalHits = response.data.totalHits
-        totalFoto = foto.length
+        //  totalFoto = foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
