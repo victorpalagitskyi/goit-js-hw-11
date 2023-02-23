@@ -14,7 +14,7 @@ form.addEventListener("submit", onSubmitForm)
 searchQuery.addEventListener("input", onSearchQuery)
 
 
-async function  fetchElement (searchQuery, page) { 
+async function  fetchElement (search, page) { 
     const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     return axios(URL)
 }
@@ -59,6 +59,7 @@ function onSubmitForm(e) {
         .then(response => { 
         const foto = response.data.hits
         const totalHits = response.data.totalHits
+        totalFoto = foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
