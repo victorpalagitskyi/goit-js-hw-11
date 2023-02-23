@@ -14,8 +14,8 @@ form.addEventListener("submit", onSubmitForm)
 searchQuery.addEventListener("input", onSearchQuery)
 
 
-async function  fetchElement (searchQ, page) { 
-    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+async function  fetchElement (searchQuery, page) { 
+    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     return axios(URL)
 }
 
