@@ -1,2 +1,15 @@
 @import './common';
 @import './example';
+
+.container {
+    height: 50px;
+    background-color: teal;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.visible {
+    visibility: hidden;
+}
