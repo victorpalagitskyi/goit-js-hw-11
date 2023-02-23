@@ -15,7 +15,7 @@ searchQuery.addEventListener("input", onSearchQuery)
 
 
 async function  fetchElement (searchQuery, page) { 
-    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${search}&fields=webformatURL,largeImageURL,tags,likes,views,comments,downloads&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     return axios(URL)
 }
 
@@ -102,7 +102,7 @@ function onClickLoadMore(e) {
         .then(foto => createMarkupFotoData(foto))
         .then(markup => { 
             addMarkupToGalery(markup)
-            // loadMore.disabled = false
+            loadMore.disabled = false
         })
     .catch (error)
 
