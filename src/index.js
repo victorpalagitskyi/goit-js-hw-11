@@ -15,9 +15,15 @@ loadMore.addEventListener("click", onClickLoadMore)
 form.addEventListener("submit", onSubmitForm)
 searchInput.addEventListener("input", onSearchQuery)
 
-async function  fetchElement (searchQ, page) { 
-    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&q=${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
-    return axios(URL)
+const ENDPOINT = "https://pixabay.com/api"
+const KEY = "33801873-24bead2c15be4dcc872add6e4"
+const searchOptions = "'image_type=photo&orientation=horizontal&safesearch=true'"
+
+async function fetchElement(searchQ, page) { 
+    const URL = `${ENDPOINT}/?key=${KEY}&q=${searchQ}&${searchOptions}&page=${page}&per_page=40`;
+    return axios.get(URL)
+    // const URL = `/?key=&q=${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+    
 }
 
 function createMarkupFotoData(foto) {   
@@ -52,6 +58,16 @@ function addMarkupToGalery(markup) {
    gallery.insertAdjacentHTML("beforeend", markup )
 }
 
+function onSearchQuery(e) { 
+   searchQuery = e.target.value
+    if (searchQuery === "") {
+        btn.disabled = true;
+    }
+    else { 
+        btn.disabled = false;
+    }   
+    return searchQuery
+} 
 function onSubmitForm(e) { 
     e.preventDefault()
     changeVisibleLoadingMoreBtn()
@@ -80,16 +96,6 @@ return createMarkupFotoData(foto)
    
     
 }
-function onSearchQuery(e) { 
-   let searchQuery = e.target.value
-    if (searchQuery === "") {
-        btn.disabled = true;
-    }
-    else { 
-        btn.disabled = false;
-    }   
-    return searchQuery
-} 
  
 function onClickLoadMore(e) { 
     numberOfPage += 1
