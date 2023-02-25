@@ -57,7 +57,7 @@ function onSubmitForm(e) {
     changeVisibleLoadingMoreBtn()
     numberOfPage = 1
     btn.disabled = true
-
+// Notiflix.Notify.failure()
 
     fetchElement(searchQuery, numberOfPage) 
         .then(response => { 
@@ -66,7 +66,7 @@ function onSubmitForm(e) {
              totalMatches += foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
-            Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+            throw new Error('Sorry, there are no images matching your search query. Please try again.')
         if (foto.length !== 0)   
              Notiflix.Notify.success(`Where is  ${totalHits} images.`)
             }
