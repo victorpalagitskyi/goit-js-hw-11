@@ -13,3 +13,13 @@
 .visible {
     visibility: hidden;
 }
+.gallery {
+    display: grid;
+    gap: 20;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}

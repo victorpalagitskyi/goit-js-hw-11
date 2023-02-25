@@ -1,4 +1,4 @@
-// import Notiflix from 'notiflix';
+import Notiflix from 'notiflix';
 import axios from 'axios'
 
 const searchInput = document.querySelector(".search_input")
@@ -9,6 +9,7 @@ const btn = document.querySelector(".button")
 
 let searchQuery = ""
 let numberOfPage = 1
+let totalMatches = 0
 
 loadMore.addEventListener("click", onClickLoadMore)
 form.addEventListener("submit", onSubmitForm)
@@ -49,7 +50,7 @@ function galleryMarkup(markup) {
     gallery.innerHTML = markup
 } 
 function addMarkupToGalery(markup) { 
-    gallery.insertAdjacentHTML("beforeend", markup )
+   gallery.insertAdjacentHTML("beforeend", markup )
 }
 
 function onSubmitForm(e) { 
@@ -62,20 +63,23 @@ function onSubmitForm(e) {
     fetchElement(searchQuery, numberOfPage) 
         .then(response => { 
         const foto = response.data.hits
-        const totalHits = response.data.totalHits
-         totalMatches = foto.length
+            const totalHits = response.data.totalHits
+             totalMatches += foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
         if (foto.length !== 0)   
              Notiflix.Notify.success(`Where is  ${totalHits} images.`)
-        }
+            }
 return createMarkupFotoData(foto)
         })
         .then(markup => { 
             galleryMarkup(markup)
         })
-    .catch (error)
+        .catch(console.log(error))
+
+   
+    
 }
 function onSearchQuery(e) { 
    let searchQuery = e.target.value
@@ -106,6 +110,7 @@ function onClickLoadMore(e) {
             addMarkupToGalery(markup)
             loadMore.disabled = false
         })
-    .catch (error)
+        .catch(console.log(error))
+    
 
 }
