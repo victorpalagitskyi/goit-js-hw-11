@@ -66,7 +66,7 @@ function onSubmitForm(e) {
              totalMatches += foto.length
         if (foto.length === 0) { 
             changeVisibleLoadingMoreBtn()
-            throw Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+           Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
         if (foto.length !== 0)   
              Notiflix.Notify.success(`Where is  ${totalHits} images.`)
             }
@@ -75,7 +75,7 @@ return createMarkupFotoData(foto)
         .then(markup => { 
             galleryMarkup(markup)
         })
-        .catch(console.log(error))
+        .catch(console.log)
 
    
     
@@ -109,7 +109,7 @@ function onClickLoadMore(e) {
             addMarkupToGalery(markup)
             loadMore.disabled = false
         })
-        .catch(console.log(error))
+        .catch(console.log)
     
 
 }
