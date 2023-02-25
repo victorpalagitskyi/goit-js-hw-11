@@ -15,15 +15,9 @@ loadMore.addEventListener("click", onClickLoadMore)
 form.addEventListener("submit", onSubmitForm)
 searchInput.addEventListener("input", onSearchQuery)
 
-const ENDPOINT = "https://pixabay.com/api"
-const KEY = "33801873-24bead2c15be4dcc872add6e4"
-const searchOptions = "'image_type=photo&orientation=horizontal&safesearch=true'"
-
-async function fetchElement(searchQ, page) { 
-    const URL = `${ENDPOINT}/?key=${KEY}&q=${searchQ}&${searchOptions}&page=${page}&per_page=40`;
-    return axios.get(URL)
-    // const URL = `/?key=&q=${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
-    
+async function  fetchElement (searchQ, page) { 
+    const URL = `https://pixabay.com/api/?key=33801873-24bead2c15be4dcc872add6e4&q=${searchQ}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+    return axios(URL)
 }
 
 function createMarkupFotoData(foto) {   
@@ -48,8 +42,11 @@ function createMarkupFotoData(foto) {
 </div>
     `).join("")
 }
-function changeVisibleLoadingMoreBtn() {
-    loadMore.classList.toggle("visible")
+function VisibleLoadingMoreBtn() {
+    loadMore.classList.remove("visible")
+}
+function hiddenLoadingMoreBtn() { 
+     loadMore.classList.add("visible")
 }
 function galleryMarkup(markup) { 
     gallery.innerHTML = markup
@@ -58,19 +55,9 @@ function addMarkupToGalery(markup) {
    gallery.insertAdjacentHTML("beforeend", markup )
 }
 
-function onSearchQuery(e) { 
-   searchQuery = e.target.value
-    if (searchQuery === "") {
-        btn.disabled = true;
-    }
-    else { 
-        btn.disabled = false;
-    }   
-    return searchQuery
-} 
 function onSubmitForm(e) { 
     e.preventDefault()
-    changeVisibleLoadingMoreBtn()
+    VisibleLoadingMoreBtn()
     numberOfPage = 1
     btn.disabled = true
 
@@ -81,9 +68,9 @@ function onSubmitForm(e) {
             const totalHits = response.data.totalHits
              totalMatches += foto.length
         if (foto.length === 0) { 
-            changeVisibleLoadingMoreBtn()
+         hiddenLoadingMoreBtn()
            Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
-        if (foto.length !== 0)   
+        if   (foto.length !== 0)   
              Notiflix.Notify.success(`Where is  ${totalHits} images.`)
             }
 return createMarkupFotoData(foto)
@@ -96,6 +83,16 @@ return createMarkupFotoData(foto)
    
     
 }
+function onSearchQuery(e) { 
+   searchQuery = e.target.value
+    if (searchQuery === "") {
+        btn.disabled = true;
+    }
+    else { 
+        btn.disabled = false;
+    }   
+    return searchQuery
+} 
  
 function onClickLoadMore(e) { 
     numberOfPage += 1
@@ -106,7 +103,7 @@ function onClickLoadMore(e) {
             totalMatches += foto.length
             if (totalMatches === 0 || totalMatches >= totalHits) {
                 Notiflix.Notify.warning("We have reached the end of the list")
-                changeVisibleLoadingMoreBtn()
+               hiddenLoadingMoreBtn()
             }
              return foto
         })
